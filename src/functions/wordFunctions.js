@@ -1,12 +1,14 @@
 import randomWords from "random-words";
 
-const word = randomWords();
-// function getWord() {
-//   let word = randomWords();
-//   if(word.length <= 3) {
-//     while
-//   }
-// }
+function getWord() {
+  let word = randomWords();
+  if (word.length <= 3) {
+    while (word.length <= 3) {
+      word = randomWords();
+    }
+  }
+  return word;
+}
 
 function encryptWord(string) {
   const arr = string.split("");
@@ -14,15 +16,15 @@ function encryptWord(string) {
   const initial = [Math.floor(Math.random() * wordLen)];
 
   const res = searchLetter(arr, arr[initial]);
-  if(res !== 0)
-    initial.push(...res)
+  if (res !== 0) initial.push(...res);
 
   for (let i = 0; i < arr.length; i++) {
     if (initial.indexOf(i) === -1) {
       arr[i] = "_";
     }
   }
-  return arr;
+  // console.log(arr[initial[0]])
+  return [arr, arr[initial[0]]];
 }
 
 function revealLetter(encryptedArr, indexArr, letter) {
@@ -41,4 +43,4 @@ function searchLetter(word, letter) {
   else return 0;
 }
 
-export { word, encryptWord, revealLetter, searchLetter };
+export { encryptWord, revealLetter, searchLetter, getWord };

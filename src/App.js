@@ -1,86 +1,152 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { TextField } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { word, encryptWord, searchLetter, revealLetter } from "./functions/wordFunctions";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { red } from "@mui/material/colors";
+import { Box } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import AlertDialog from "./component/SorryDialog";
+import {
+  encryptWord,
+  searchLetter,
+  revealLetter,
+  getWord,
+} from "./functions/wordFunctions";
 
-const newWord = word;
-const encryptedWord = encryptWord(newWord);
+const word = getWord();
+const [encryptedWord, letter] = encryptWord(word);
+const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
 function App() {
-  const [inputError, setInputError] = useState("");
   const [value, setValue] = useState(encryptedWord);
-  const [inputValue, setInputValue] = useState("");
-  const [helperText, setHelperTest] = useState("");
+  const [gameStatus, setGameStatus] = useState(1);
+  const [hearts, setHearts] = useState([1, 2, 3, 4, 5, 6]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [usedAplhabet, setUsedAplhabet] = useState([]);
 
-  console.log(value, newWord);
+  console.log(value, word);
 
-  function updateInputValue(e) {
-    const result = e.target.value;
-    if(result.length > 1) {
-      setHelperTest("Only letter allowed!");
-    }else {
-      setInputValue(result);
-      setHelperTest("");
+  function getGameStatus() {
+    if (value.indexOf("_") === -1) {
+      setGameStatus(0);
     }
   }
 
-  function handleClick() {
-    const res = searchLetter(newWord, inputValue);
-    console.log(res);
-    if(res !== 0) {
-      setValue(revealLetter(encryptedWord, res, inputValue));
-      setInputValue("");
-      setInputError("");
+  const handleClose = (val) => {
+    setOpenDialog(val);
+  };
+
+  function handleEvaluate(index, letter) {
+    const res = searchLetter(word, letter);
+    if (res !== 0) {
+      setValue(revealLetter(encryptedWord, res, letter));
+      getGameStatus();
     } else {
-      setInputError("error");
+      if (hearts.length > 0 && usedAplhabet[index] !== 1) {
+        hearts.shift();
+        setHearts(hearts);
+      }
+    }
+
+    if (hearts.length === 0) {
+      setGameStatus(0);
+      setOpenDialog(true);
     }
   }
 
-  useEffect(()=>{console.log("rendered")}, [value]);
+  function handleUsedAlphabet(key, index) {
+    if (key === letter) return "text";
+    else if (usedAplhabet[index] === 1) return "text";
+    else return "contained";
+  }
+
+  function handleAlphabetClick(alphabetIndex, key) {
+    const newUsedAplhabet = [...usedAplhabet];
+    newUsedAplhabet[alphabetIndex] = 1;
+    setUsedAplhabet(newUsedAplhabet);
+
+    handleEvaluate(alphabetIndex, key);
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Stack spacing={3} direction="row" sx={{p:2}}>
+      <Stack direction="column">
+        <Box elevation={8}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ color: "text.primary", m: "auto", mt: 1, mb: 1 }}
+          >
+            Hangman
+          </Typography>
+        </Box>
+        <Divider />
+        <Stack spacing={1} direction="row" sx={{ m: 1 }}>
+          {hearts.map((i) => (
+            <Typography variant="h3">
+              <FavoriteIcon key={i} sx={{ color: red.A400 }} />
+            </Typography>
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack
+        spacing={3}
+        sx={{ mt: "20vh" }}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Stack
+          spacing={3}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ p: 1 }}
+        >
           {value.map((element) => (
             <Typography
-              variant="h1"
-              component="div"
-              gutterBottom
+              variant="h2"
               sx={{
                 color: "text.primary",
-                fontSize: "10vw",
-                fontWeight: "regular",
+                fontSize: "7.5vw",
+                fontWeight: "light",
               }}
             >
               {element}
             </Typography>
           ))}
         </Stack>
-        <Stack spacing={2} direction="column" sx={{p:2}}>
-          <TextField
-            value={inputValue}
-            label="Guess a letter"
-            variant="standard"
-            helperText={helperText}
-            color={inputError}
-            focused
-            onChange={(e) => updateInputValue(e)}
-          />
-          <Button
-            variant="contained"
-            onClick={() => {
-              console.log("clicked");
-              handleClick();
-            }}
+        {gameStatus ? (
+          <Grid
+            container
+            spacing={0.5}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ p: 2, maxWidth: "750px" }}
+            columns={{ md: 12, sm: 12 }}
           >
-            Submit
-          </Button>
-        </Stack>
-      </header>
+            {alphabet.map((key, index) => (
+              <Grid item key={key}>
+                <Button
+                  variant={handleUsedAlphabet(key, index)}
+                  key={key}
+                  onClick={() => {
+                    handleAlphabetClick(index, key);
+                  }}
+                >
+                  {key}
+                </Button>
+              </Grid>
+            ))}
+          </Grid>
+        ) : null}
+      </Stack>
+      <AlertDialog open={openDialog} onClose={handleClose} />
     </div>
   );
 }
