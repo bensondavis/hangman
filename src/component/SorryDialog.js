@@ -6,18 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import Divider from "@mui/material/Divider";
 
 export default function AlertDialog(props) {
-  const {open, onClose} = props;
-  const handleClose = () => {
-    onClose(false);
-  };
+  const {open, newGame, reveal} = props;
 
   return (
     <div>
       <Dialog
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -26,12 +24,13 @@ export default function AlertDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            You couldn't finish with the given no. of chances.
+            You couldn't finish in the given no. of chances.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Try Again?</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={newGame}>New Challenge</Button>
+          <Divider orientation="vertical" variant="middle" flexItem />
+          <Button onClick={reveal} autoFocus>
             Reveal
           </Button>
         </DialogActions>
@@ -41,6 +40,7 @@ export default function AlertDialog(props) {
 }
 
 AlertDialog.propTypes = {
-    onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    newGame: PropTypes.func.isRequired,
+    reveal: PropTypes.func.isRequired,
 };

@@ -23,7 +23,6 @@ function encryptWord(string) {
       arr[i] = "_";
     }
   }
-  // console.log(arr[initial[0]])
   return [arr, arr[initial[0]]];
 }
 
