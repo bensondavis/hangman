@@ -9,6 +9,8 @@ import { red } from "@mui/material/colors";
 import Divider from "@mui/material/Divider";
 import AlertDialog from "./component/SorryDialog";
 import Success from "./component/Confetti";
+import "@fontsource/silkscreen"
+import "@fontsource/signika-negative"
 import {
   createTheme,
   responsiveFontSizes,
@@ -107,9 +109,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <Typography
           variant="h4"
+          fontFamily={"Silkscreen"}
           sx={{ color: "text.primary", m: "auto", mt: 1, mb: 1 }}
         >
-          Hangman
+          Hangman.
         </Typography>
       </ThemeProvider>
 
@@ -141,9 +144,11 @@ function App() {
               <Typography
                 key={index}
                 variant="h2"
+                fontFamily={"Signika Negative"}
                 sx={{
                   color: "text.primary",
                   fontWeight: "light",
+                  textTransform: "uppercase"
                 }}
               >
                 {key}

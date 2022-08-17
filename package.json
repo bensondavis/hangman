@@ -6,6 +6,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@fontsource/signika-negative": "^4.5.10",
+    "@fontsource/silkscreen": "^4.5.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "@testing-library/jest-dom": "^5.16.5",
