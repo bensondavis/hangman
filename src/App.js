@@ -21,6 +21,7 @@ import {
   searchLetter,
   revealLetter,
   getWord,
+  findInititalChar,
 } from "./functions/wordFunctions";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -29,14 +30,22 @@ theme = responsiveFontSizes(theme);
 
 function App() {
   const [word, setWord] = useState(getWord());
-  const [encrypt, setEncrypt] = useState(encryptWord(word));
-  const [value, setValue] = useState(encrypt[0]);
+  const [initChar,setInitChar] = useState(findInititalChar(word))
+  const [encrypt, setEncrypt] = useState(encryptWord(word,initChar));
+  const [value, setValue] = useState(encrypt);
   const [gameOver, setGameOver] = useState(0);
   const [hearts, setHearts] = useState([1, 2, 3, 4, 5, 6]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [usedAplhabet, setUsedAplhabet] = useState([]);
+  const [usedAplhabet, setUsedAplhabet] = useState(getInitUsedAlphabet(initChar));
   const [keyboard, setKeyboard] = useState(true);
   const [newGameButton, setNewGameButton] = useState(false);
+
+
+  function getInitUsedAlphabet(char){
+    const res = [];
+    res[alphabet.indexOf(char)]=1;
+    return res;
+  }
 
   // console.log(word);
 
@@ -66,9 +75,8 @@ function App() {
     }
   }
 
-  function handleUsedAlphabet(key, index) {
-    if (key === encrypt[1]) return "text";
-    else if (usedAplhabet[index] === 1) return "text";
+  function handleUsedAlphabet(index) {
+    if (usedAplhabet[index] === 1) return "text";
     else return "contained";
   }
 
@@ -82,9 +90,11 @@ function App() {
 
   function newGame() {
     const w = getWord();
+    const initWord= findInititalChar(w)
     setWord(w);
-    setEncrypt(encryptWord(w));
-    setUsedAplhabet([]);
+    setInitChar(initWord);
+    setEncrypt(encryptWord(w,initWord));
+    setUsedAplhabet(getInitUsedAlphabet(initWord));
     setGameOver(false);
     setHearts([1, 2, 3, 4, 5, 6]);
     setKeyboard(true);
@@ -99,7 +109,7 @@ function App() {
   }
 
   useEffect(() => {
-    setValue(encrypt[0]);
+    setValue(encrypt);
   }, [encrypt]);
 
   return (
@@ -118,10 +128,10 @@ function App() {
 
       <Divider />
 
-      <Stack spacing={1} direction="row" sx={{ m: 1 , height: "56px"}}>
+      <Stack spacing={1} direction="row" justifyContent={"center"} alignItems={"center"} sx={{ m: 1 , height: "56px"}}>
         {hearts.map((i) => (
-          <Typography variant="h3">
-            <FavoriteIcon key={i} sx={{ color: red.A400 }} />
+          <Typography key= {i} variant="h3">
+            <FavoriteIcon  sx={{ color: red.A400 }} />
           </Typography>
         ))}
       </Stack>
@@ -140,9 +150,8 @@ function App() {
           justifyContent="center"
         >
           {value.map((key, index) => (
-            <ThemeProvider theme={theme}>
+            <ThemeProvider key={index} theme={theme}>
               <Typography
-                key={index}
                 variant="h2"
                 fontFamily={"Signika Negative"}
                 sx={{
@@ -169,8 +178,7 @@ function App() {
             {alphabet.map((key, index) => (
               <Grid item key={key}>
                 <Button
-                  variant={handleUsedAlphabet(key, index)}
-                  key={key}
+                  variant={handleUsedAlphabet(index)}
                   onClick={() => {
                     handleAlphabetClick(index, key);
                   }}

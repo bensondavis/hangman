@@ -10,20 +10,13 @@ function getWord() {
   return word;
 }
 
-function encryptWord(string) {
-  const arr = string.split("");
-  const wordLen = arr.length;
-  const initial = [Math.floor(Math.random() * wordLen)];
+function findInititalChar(word){
+  return word[Math.floor(Math.random() * word.length)]
+}
 
-  const res = searchLetter(arr, arr[initial]);
-  if (res !== 0) initial.push(...res);
-
-  for (let i = 0; i < arr.length; i++) {
-    if (initial.indexOf(i) === -1) {
-      arr[i] = "_";
-    }
-  }
-  return [arr, arr[initial[0]]];
+function encryptWord(word,pivotChar) {
+  const arr = word.split("");
+  return arr.map(char=>char===pivotChar?pivotChar:"_");
 }
 
 function revealLetter(encryptedArr, indexArr, letter) {
@@ -42,4 +35,4 @@ function searchLetter(word, letter) {
   else return 0;
 }
 
-export { encryptWord, revealLetter, searchLetter, getWord };
+export { encryptWord, revealLetter, searchLetter, getWord, findInititalChar };
