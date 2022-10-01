@@ -9,8 +9,10 @@ import { red } from "@mui/material/colors";
 import Divider from "@mui/material/Divider";
 import AlertDialog from "./component/SorryDialog";
 import Success from "./component/Confetti";
-import "@fontsource/silkscreen"
-import "@fontsource/signika-negative"
+import "@fontsource/silkscreen";
+import "@fontsource/signika-negative";
+import "@fontsource/concert-one";
+import hangmanIcon from "./images/hangman.png";
 import {
   createTheme,
   responsiveFontSizes,
@@ -28,32 +30,36 @@ const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
+localStorage.setItem("attempts", localStorage.getItem("attempts") ?? "1");
+localStorage.setItem("wins", localStorage.getItem("wins") ?? "0");
+
 function App() {
   const [word, setWord] = useState(getWord());
-  const [initChar,setInitChar] = useState(findInititalChar(word))
-  const [encrypt, setEncrypt] = useState(encryptWord(word,initChar));
+  const [initChar, setInitChar] = useState(findInititalChar(word));
+  const [encrypt, setEncrypt] = useState(encryptWord(word, initChar));
   const [value, setValue] = useState(encrypt);
   const [gameOver, setGameOver] = useState(0);
   const [hearts, setHearts] = useState([1, 2, 3, 4, 5, 6]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [usedAplhabet, setUsedAplhabet] = useState(getInitUsedAlphabet(initChar));
+  const [usedAplhabet, setUsedAplhabet] = useState(
+    getInitUsedAlphabet(initChar)
+  );
   const [keyboard, setKeyboard] = useState(true);
   const [newGameButton, setNewGameButton] = useState(false);
 
-
-  function getInitUsedAlphabet(char){
+  function getInitUsedAlphabet(char) {
     const res = [];
-    res[alphabet.indexOf(char)]=1;
+    res[alphabet.indexOf(char)] = 1;
     return res;
   }
-
   // console.log(word);
-
   function getGameStatus() {
     if (value.indexOf("_") === -1) {
       setKeyboard(false);
       setGameOver(1);
       setNewGameButton(true);
+
+      localStorage.setItem("wins", +localStorage.getItem("wins") + 1);
     }
   }
 
@@ -90,16 +96,17 @@ function App() {
 
   function newGame() {
     const w = getWord();
-    const initWord= findInititalChar(w)
+    const initWord = findInititalChar(w);
     setWord(w);
     setInitChar(initWord);
-    setEncrypt(encryptWord(w,initWord));
+    setEncrypt(encryptWord(w, initWord));
     setUsedAplhabet(getInitUsedAlphabet(initWord));
     setGameOver(false);
     setHearts([1, 2, 3, 4, 5, 6]);
     setKeyboard(true);
     setOpenDialog(false);
     setNewGameButton(false);
+    localStorage.setItem("attempts", +localStorage.getItem("attempts") + 1);
   }
 
   function reveal() {
@@ -114,7 +121,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Box> */}
       {gameOver ? <Success /> : null}
       <ThemeProvider theme={theme}>
         <Typography
@@ -122,81 +128,93 @@ function App() {
           fontFamily={"Silkscreen"}
           sx={{ color: "text.primary", m: "auto", mt: 1, mb: 1 }}
         >
-          Hangman.
+          <img src={hangmanIcon} width={"40"} alt="hangman icon"/> Hangman
         </Typography>
       </ThemeProvider>
 
       <Divider />
 
-      <Stack spacing={1} direction="row" justifyContent={"center"} alignItems={"center"} sx={{ m: 1 , height: "56px"}}>
+      <Typography className="highscore" variant="h6" fontFamily={"Concert One"}>
+        HIGH SCORE: {localStorage.getItem("wins")}/
+        {localStorage.getItem("attempts")}
+      </Typography>
+
+      <Stack
+        spacing={1}
+        direction="row"
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{ m: 1, height: "56px", p: 2 }}
+      >
         {hearts.map((i) => (
-          <Typography key= {i} variant="h3">
-            <FavoriteIcon  sx={{ color: red.A400 }} />
+          <Typography key={i} variant="h3">
+            <FavoriteIcon sx={{ color: red.A400 }} />
           </Typography>
         ))}
       </Stack>
+
       <div className="container">
-      <Stack
-        spacing={3}
-        // sx={{ my: 10 , height: "50vh"}}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
         <Stack
-          spacing={1}
-          direction="row"
+          spacing={3}
+          direction="column"
           alignItems="center"
           justifyContent="center"
         >
-          {value.map((key, index) => (
-            <ThemeProvider key={index} theme={theme}>
-              <Typography
-                variant="h2"
-                fontFamily={"Signika Negative"}
-                sx={{
-                  color: "text.primary",
-                  fontWeight: "light",
-                  textTransform: "uppercase"
-                }}
-              >
-                {key}
-              </Typography>
-            </ThemeProvider>
-          ))}
-        </Stack>
-        {keyboard ? (
-          <Grid
-            container
+          <Stack
             spacing={1}
             direction="row"
-            justifyContent="center"
             alignItems="center"
-            sx={{  maxWidth: "750px" , mx: "auto", }}
-            
+            justifyContent="center"
           >
-            {alphabet.map((key, index) => (
-              <Grid item key={key}>
-                <Button
-                  variant={handleUsedAlphabet(index)}
-                  onClick={() => {
-                    handleAlphabetClick(index, key);
+            {value.map((key, index) => (
+              <ThemeProvider key={index} theme={theme}>
+                <Typography
+                  variant="h2"
+                  fontFamily={"Signika Negative"}
+                  sx={{
+                    color: "text.primary",
+                    fontWeight: "light",
+                    textTransform: "uppercase",
                   }}
                 >
                   {key}
-                </Button>
-              </Grid>
+                </Typography>
+              </ThemeProvider>
             ))}
-          </Grid>
-        ) : null}
-        {newGameButton ? (
-          <>
-            <Button variant="outlined" onClick={newGame}>New Challenge</Button>
-          </>
-        ) : null}
-      </Stack>
+          </Stack>
+          {keyboard ? (
+            <Grid
+              container
+              spacing={1}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ maxWidth: "750px", mx: "auto" }}
+            >
+              {alphabet.map((key, index) => (
+                <Grid item key={key}>
+                  <Button
+                    variant={handleUsedAlphabet(index)}
+                    onClick={() => {
+                      handleAlphabetClick(index, key);
+                    }}
+                  >
+                    {key}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          ) : null}
+          {newGameButton ? (
+            <>
+              <Button variant="outlined" onClick={newGame}>
+                New Challenge
+              </Button>
+            </>
+          ) : null}
+        </Stack>
       </div>
-      
+
       <AlertDialog open={openDialog} newGame={newGame} reveal={reveal} />
     </div>
   );

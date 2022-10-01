@@ -8,4 +8,9 @@
   margin-top: 30vh;
 }
 
-
+.highscore {
+  position: absolute;
+  /* top: 76px; */
+  right: 5px;
+  padding: 2px;
+}
