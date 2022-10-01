@@ -1,22 +1,25 @@
 {
   "files": {
-    "main.css": "/hangman/static/css/main.92f9415d.css",
-    "main.js": "/hangman/static/js/main.a3cb283f.js",
+    "main.css": "/hangman/static/css/main.32f31719.css",
+    "main.js": "/hangman/static/js/main.6ff384ea.js",
     "static/js/787.20ace30e.chunk.js": "/hangman/static/js/787.20ace30e.chunk.js",
     "static/media/signika-negative-all-400-normal.woff": "/hangman/static/media/signika-negative-all-400-normal.c607731ea6f81f842962.woff",
+    "static/media/concert-one-all-400-normal.woff": "/hangman/static/media/concert-one-all-400-normal.b5aa334afa725d57d892.woff",
+    "static/media/concert-one-latin-400-normal.woff2": "/hangman/static/media/concert-one-latin-400-normal.84b0d5c405e9c0790af7.woff2",
     "static/media/signika-negative-latin-400-normal.woff2": "/hangman/static/media/signika-negative-latin-400-normal.31b6b127649bf0b07ada.woff2",
     "static/media/signika-negative-latin-ext-400-normal.woff2": "/hangman/static/media/signika-negative-latin-ext-400-normal.189404bcc4578bb42b38.woff2",
     "static/media/silkscreen-all-400-normal.woff": "/hangman/static/media/silkscreen-all-400-normal.8e266511e61909af9df1.woff",
     "static/media/silkscreen-latin-400-normal.woff2": "/hangman/static/media/silkscreen-latin-400-normal.0391e37d126a441358bc.woff2",
     "static/media/signika-negative-vietnamese-400-normal.woff2": "/hangman/static/media/signika-negative-vietnamese-400-normal.0453efe4a7408ed0831a.woff2",
+    "static/media/concert-one-latin-ext-400-normal.woff2": "/hangman/static/media/concert-one-latin-ext-400-normal.dd59ae8a4b15724af5f7.woff2",
     "static/media/silkscreen-latin-ext-400-normal.woff2": "/hangman/static/media/silkscreen-latin-ext-400-normal.cd91030c696516c121d1.woff2",
     "index.html": "/hangman/index.html",
-    "main.92f9415d.css.map": "/hangman/static/css/main.92f9415d.css.map",
-    "main.a3cb283f.js.map": "/hangman/static/js/main.a3cb283f.js.map",
+    "main.32f31719.css.map": "/hangman/static/css/main.32f31719.css.map",
+    "main.6ff384ea.js.map": "/hangman/static/js/main.6ff384ea.js.map",
     "787.20ace30e.chunk.js.map": "/hangman/static/js/787.20ace30e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.92f9415d.css",
-    "static/js/main.a3cb283f.js"
+    "static/css/main.32f31719.css",
+    "static/js/main.6ff384ea.js"
   ]
 }
