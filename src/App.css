@@ -5,12 +5,18 @@
 }
 
 .container{
-  margin-top: 30vh;
+  margin-top: 25vh;
 }
 
 .highscore {
   position: absolute;
-  /* top: 76px; */
   right: 5px;
   padding: 2px;
+  width:200px;
+}
+
+.shareButtons {
+  position: fixed;
+  top: 30%;
+  width: 75px;
 }

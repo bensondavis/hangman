@@ -17,6 +17,7 @@
     "random-words": "^1.2.0",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
+    "react-custom-share": "^0.4.8",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-use": "^17.4.0",

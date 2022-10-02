@@ -2,15 +2,11 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { red } from "@mui/material/colors";
 import Divider from "@mui/material/Divider";
-import AlertDialog from "./component/SorryDialog";
-import Success from "./component/Confetti";
+import AlertDialog from "./components/SorryDialog";
+import Success from "./components/Confetti";
 import "@fontsource/silkscreen";
-import "@fontsource/signika-negative";
 import "@fontsource/concert-one";
 import hangmanIcon from "./images/hangman.png";
 import {
@@ -25,6 +21,11 @@ import {
   getWord,
   findInititalChar,
 } from "./functions/wordFunctions";
+import ShareComponent from "./components/Share";
+import HighScore from "./components/Score";
+import Hearts from "./components/Hearts";
+import Word from "./components/Word";
+import Keyboard from "./components/Keyboard";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 let theme = createTheme();
@@ -128,82 +129,35 @@ function App() {
           fontFamily={"Silkscreen"}
           sx={{ color: "text.primary", m: "auto", mt: 1, mb: 1 }}
         >
-          <img src={hangmanIcon} width={"40"} alt="hangman icon"/> Hangman
+          <img src={hangmanIcon} width={"40"} alt="hangman icon" /> Hangman
         </Typography>
       </ThemeProvider>
 
       <Divider />
 
-      <Typography className="highscore" variant="h6" fontFamily={"Concert One"}>
-        HIGH SCORE: {localStorage.getItem("wins")}/
-        {localStorage.getItem("attempts")}
-      </Typography>
+      <HighScore />
 
-      <Stack
-        spacing={1}
-        direction="row"
-        justifyContent={"center"}
-        alignItems={"center"}
-        sx={{ m: 1, height: "56px", p: 2 }}
-      >
-        {hearts.map((i) => (
-          <Typography key={i} variant="h3">
-            <FavoriteIcon sx={{ color: red.A400 }} />
-          </Typography>
-        ))}
-      </Stack>
+      <Hearts hearts={hearts} />
+
+      <div className="shareButtons">
+        <ShareComponent />
+      </div>
 
       <div className="container">
         <Stack
-          spacing={3}
           direction="column"
           alignItems="center"
           justifyContent="center"
+          spacing={5}
         >
-          <Stack
-            spacing={1}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {value.map((key, index) => (
-              <ThemeProvider key={index} theme={theme}>
-                <Typography
-                  variant="h2"
-                  fontFamily={"Signika Negative"}
-                  sx={{
-                    color: "text.primary",
-                    fontWeight: "light",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {key}
-                </Typography>
-              </ThemeProvider>
-            ))}
-          </Stack>
+          <Word value={value} />
+
           {keyboard ? (
-            <Grid
-              container
-              spacing={1}
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              sx={{ maxWidth: "750px", mx: "auto" }}
-            >
-              {alphabet.map((key, index) => (
-                <Grid item key={key}>
-                  <Button
-                    variant={handleUsedAlphabet(index)}
-                    onClick={() => {
-                      handleAlphabetClick(index, key);
-                    }}
-                  >
-                    {key}
-                  </Button>
-                </Grid>
-              ))}
-            </Grid>
+            <Keyboard
+              alphabet={alphabet}
+              handleUsedAlphabet={handleUsedAlphabet}
+              handleAlphabetClick={handleAlphabetClick}
+            />
           ) : null}
           {newGameButton ? (
             <>
