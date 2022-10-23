@@ -2,18 +2,14 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AlertDialog from "./components/SorryDialog";
 import Success from "./components/Confetti";
-import "@fontsource/silkscreen";
-import "@fontsource/concert-one";
-import hangmanIcon from "./images/hangman.png";
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-} from "@mui/material/styles";
+import HighScore from "./components/Score";
+import Word from "./components/Word";
+import Keyboard from "./components/Keyboard";
+import AppBar from "./components/AppBar";
+import Hangman from "./components/Hangman";
 import {
   encryptWord,
   searchLetter,
@@ -21,15 +17,8 @@ import {
   getWord,
   findInititalChar,
 } from "./functions/wordFunctions";
-import ShareComponent from "./components/Share";
-import HighScore from "./components/Score";
-import Hearts from "./components/Hearts";
-import Word from "./components/Word";
-import Keyboard from "./components/Keyboard";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-let theme = createTheme();
-theme = responsiveFontSizes(theme);
 
 localStorage.setItem("attempts", localStorage.getItem("attempts") ?? "1");
 localStorage.setItem("wins", localStorage.getItem("wins") ?? "0");
@@ -40,7 +29,7 @@ function App() {
   const [encrypt, setEncrypt] = useState(encryptWord(word, initChar));
   const [value, setValue] = useState(encrypt);
   const [gameOver, setGameOver] = useState(0);
-  const [hearts, setHearts] = useState([1, 2, 3, 4, 5, 6]);
+  const [lives, setLives] = useState([1, 2, 3, 4, 5, 6, 7]);
   const [openDialog, setOpenDialog] = useState(false);
   const [usedAplhabet, setUsedAplhabet] = useState(
     getInitUsedAlphabet(initChar)
@@ -53,7 +42,7 @@ function App() {
     res[alphabet.indexOf(char)] = 1;
     return res;
   }
-  // console.log(word);
+  
   function getGameStatus() {
     if (value.indexOf("_") === -1) {
       setKeyboard(false);
@@ -70,13 +59,13 @@ function App() {
       setValue(revealLetter(value, res, letter));
       getGameStatus();
     } else {
-      if (hearts.length > 0 && usedAplhabet[index] !== 1) {
-        hearts.shift();
-        setHearts(hearts);
+      if (lives.length > 0 && usedAplhabet[index] !== 1) {
+        lives.shift();
+        setLives(lives);
       }
     }
 
-    if (hearts.length === 0) {
+    if (lives.length === 0) {
       setKeyboard(false);
       setOpenDialog(true);
     }
@@ -103,7 +92,7 @@ function App() {
     setEncrypt(encryptWord(w, initWord));
     setUsedAplhabet(getInitUsedAlphabet(initWord));
     setGameOver(false);
-    setHearts([1, 2, 3, 4, 5, 6]);
+    setLives([1, 2, 3, 4, 5, 6, 7]);
     setKeyboard(true);
     setOpenDialog(false);
     setNewGameButton(false);
@@ -123,49 +112,40 @@ function App() {
   return (
     <div className="App">
       {gameOver ? <Success /> : null}
-      <ThemeProvider theme={theme}>
-        <Typography
-          variant="h4"
-          fontFamily={"Silkscreen"}
-          sx={{ color: "text.primary", m: "auto", mt: 1, mb: 1 }}
-        >
-          <img src={hangmanIcon} width={"40"} alt="hangman icon" /> Hangman
-        </Typography>
-      </ThemeProvider>
+
+      <AppBar />
 
       <Divider />
 
       <HighScore />
 
-      <Hearts hearts={hearts} />
-
-      <div className="shareButtons">
-        <ShareComponent />
-      </div>
-
       <div className="container">
         <Stack
-          direction="column"
+          direction={{xs: 'column', sm: 'column', md: 'row'}}
           alignItems="center"
-          justifyContent="center"
-          spacing={5}
+          justifyContent="space-evenly"
+          spacing={{xs: 0, sm: 1, md: 5}}
         >
-          <Word value={value} />
+          <Hangman lives={lives} />
+          <div>
+            <Word value={value} />
 
-          {keyboard ? (
-            <Keyboard
-              alphabet={alphabet}
-              handleUsedAlphabet={handleUsedAlphabet}
-              handleAlphabetClick={handleAlphabetClick}
-            />
-          ) : null}
-          {newGameButton ? (
-            <>
-              <Button variant="outlined" onClick={newGame}>
-                New Challenge
-              </Button>
-            </>
-          ) : null}
+            {keyboard ? (
+              <Keyboard
+                alphabet={alphabet}
+                handleUsedAlphabet={handleUsedAlphabet}
+                handleAlphabetClick={handleAlphabetClick}
+              />
+            ) : null}
+
+            {newGameButton ? (
+              <>
+                <Button variant="outlined" onClick={newGame}>
+                  New Challenge
+                </Button>
+              </>
+            ) : null}
+          </div>
         </Stack>
       </div>
 

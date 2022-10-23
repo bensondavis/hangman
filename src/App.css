@@ -1,11 +1,15 @@
 .App {
   text-align: center;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  min-height: 100vh;
 }
 
 .container{
-  margin-top: 25vh;
+  display: flex;
+  justify-content: center;
+  height: calc(90vh - 55px);
+  min-width: 100%;
+  margin-top: 0px;
 }
 
 .highscore {
@@ -19,4 +23,12 @@
   position: fixed;
   top: 30%;
   width: 75px;
+}
+
+.appbar {
+  margin-top: 0px;
+  position: relative;
+  max-width: 100%;
+  height: 45px;
+  padding: 5px;
 }

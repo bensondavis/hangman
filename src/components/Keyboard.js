@@ -6,10 +6,8 @@ export default function Keyboard({alphabet, handleUsedAlphabet, handleAlphabetCl
     <Grid
       container
       spacing={1}
-      direction="row"
       justifyContent="center"
-      alignItems="center"
-      sx={{ maxWidth: "750px", mx: "auto", mt: 3 }}
+      sx={{ maxWidth: "750px", mt:2}}
     >
       {alphabet.map((key, index) => (
         <Grid item key={key}>
