@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/hangman/static/css/main.57554a27.css",
-    "main.js": "/hangman/static/js/main.43b826c8.js",
+    "main.css": "/hangman/static/css/main.8b1fc99b.css",
+    "main.js": "/hangman/static/js/main.2a713549.js",
     "static/js/787.20ace30e.chunk.js": "/hangman/static/js/787.20ace30e.chunk.js",
     "static/media/signika-negative-all-400-normal.woff": "/hangman/static/media/signika-negative-all-400-normal.c607731ea6f81f842962.woff",
     "static/media/concert-one-all-400-normal.woff": "/hangman/static/media/concert-one-all-400-normal.b5aa334afa725d57d892.woff",
@@ -14,12 +14,12 @@
     "static/media/concert-one-latin-ext-400-normal.woff2": "/hangman/static/media/concert-one-latin-ext-400-normal.dd59ae8a4b15724af5f7.woff2",
     "static/media/silkscreen-latin-ext-400-normal.woff2": "/hangman/static/media/silkscreen-latin-ext-400-normal.cd91030c696516c121d1.woff2",
     "index.html": "/hangman/index.html",
-    "main.57554a27.css.map": "/hangman/static/css/main.57554a27.css.map",
-    "main.43b826c8.js.map": "/hangman/static/js/main.43b826c8.js.map",
+    "main.8b1fc99b.css.map": "/hangman/static/css/main.8b1fc99b.css.map",
+    "main.2a713549.js.map": "/hangman/static/js/main.2a713549.js.map",
     "787.20ace30e.chunk.js.map": "/hangman/static/js/787.20ace30e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.57554a27.css",
-    "static/js/main.43b826c8.js"
+    "static/css/main.8b1fc99b.css",
+    "static/js/main.2a713549.js"
   ]
 }
