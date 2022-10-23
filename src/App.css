@@ -14,9 +14,9 @@
 
 .highscore {
   position: absolute;
-  right: 5px;
+  right: 0px;
   padding: 2px;
-  width:200px;
+  min-width:150px;
 }
 
 .shareButtons {

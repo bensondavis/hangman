@@ -35,8 +35,7 @@ function App() {
   );
   const [keyboard, setKeyboard] = useState(true);
   const [newGameButton, setNewGameButton] = useState(false);
-
-  console.log(word);
+  
   function getInitUsedAlphabet(char) {
     const res = [];
     res[alphabet.indexOf(char)] = 1;
@@ -104,7 +103,7 @@ function App() {
   return (
     <div className="App">
       {gameOver ? <Success /> : null}
-      
+
       <AppBar />
       <Divider />
       <HighScore />
