@@ -1,14 +1,6 @@
 import { Stack } from "@mui/material";
 import { Typography } from "@mui/material";
 import "@fontsource/signika-negative";
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-} from "@mui/material/styles";
-
-let theme = createTheme();
-theme = responsiveFontSizes(theme);
 
 export default function Word({ value }) {
   return (
@@ -19,19 +11,18 @@ export default function Word({ value }) {
       justifyContent="center"
     >
       {value.map((key, index) => (
-        <ThemeProvider key={index} theme={theme}>
           <Typography
-            variant="h2"
             fontFamily={"Signika Negative"}
+            fontSize={"4rem"}
             sx={{
               color: "text.primary",
               fontWeight: "light",
               textTransform: "uppercase",
             }}
+            key={index}
           >
             {key}
           </Typography>
-        </ThemeProvider>
       ))}
     </Stack>
   );

@@ -1,15 +1,15 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import AlertDialog from "./components/SorryDialog";
 import Success from "./components/Confetti";
 import HighScore from "./components/Score";
 import Word from "./components/Word";
 import Keyboard from "./components/Keyboard";
 import AppBar from "./components/AppBar";
 import Hangman from "./components/Hangman";
+import GameOver from "./components/GameOver";
+import GameWin from "./components/GameWIn";
 import {
   encryptWord,
   searchLetter,
@@ -30,19 +30,19 @@ function App() {
   const [value, setValue] = useState(encrypt);
   const [gameOver, setGameOver] = useState(0);
   const [lives, setLives] = useState([1, 2, 3, 4, 5, 6, 7]);
-  const [openDialog, setOpenDialog] = useState(false);
   const [usedAplhabet, setUsedAplhabet] = useState(
     getInitUsedAlphabet(initChar)
   );
   const [keyboard, setKeyboard] = useState(true);
   const [newGameButton, setNewGameButton] = useState(false);
 
+  console.log(word);
   function getInitUsedAlphabet(char) {
     const res = [];
     res[alphabet.indexOf(char)] = 1;
     return res;
   }
-  
+
   function getGameStatus() {
     if (value.indexOf("_") === -1) {
       setKeyboard(false);
@@ -67,7 +67,6 @@ function App() {
 
     if (lives.length === 0) {
       setKeyboard(false);
-      setOpenDialog(true);
     }
   }
 
@@ -94,15 +93,8 @@ function App() {
     setGameOver(false);
     setLives([1, 2, 3, 4, 5, 6, 7]);
     setKeyboard(true);
-    setOpenDialog(false);
     setNewGameButton(false);
     localStorage.setItem("attempts", +localStorage.getItem("attempts") + 1);
-  }
-
-  function reveal() {
-    setOpenDialog(false);
-    setValue(word.split(""));
-    setNewGameButton(true);
   }
 
   useEffect(() => {
@@ -112,19 +104,17 @@ function App() {
   return (
     <div className="App">
       {gameOver ? <Success /> : null}
-
+      
       <AppBar />
-
       <Divider />
-
       <HighScore />
 
       <div className="container">
         <Stack
-          direction={{xs: 'column', sm: 'column', md: 'row'}}
+          direction={{ xs: "column", sm: "column", md: "row" }}
           alignItems="center"
           justifyContent="space-evenly"
-          spacing={{xs: 0, sm: 1, md: 5}}
+          spacing={{ xs: 0, sm: 1, md: 5 }}
         >
           <Hangman lives={lives} />
           <div>
@@ -138,18 +128,14 @@ function App() {
               />
             ) : null}
 
-            {newGameButton ? (
-              <>
-                <Button variant="outlined" onClick={newGame}>
-                  New Challenge
-                </Button>
-              </>
+            {!keyboard && !gameOver ? (
+              <GameOver word={word} newGame={newGame} />
             ) : null}
+
+            {newGameButton ? <GameWin newGame={newGame} /> : null}
           </div>
         </Stack>
       </div>
-
-      <AlertDialog open={openDialog} newGame={newGame} reveal={reveal} />
     </div>
   );
 }

@@ -1,8 +1,3 @@
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-} from "@mui/material/styles";
 import hangmanIcon from "../images/hangman.png";
 import "@fontsource/silkscreen";
 import { Typography, IconButton, MenuItem } from "@mui/material";
@@ -12,9 +7,6 @@ import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
 import Menu from "@mui/material/Menu";
-
-let theme = createTheme();
-theme = responsiveFontSizes(theme);
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -73,17 +65,15 @@ export default function AppBar() {
   };
   return (
     <div className="appbar">
-      <ThemeProvider theme={theme}>
-        <Typography
-          variant="h4"
-          fontFamily={"Silkscreen"}
-          sx={{ color: "text.primary" }}
-        >
-          <img src={hangmanIcon} width={"40"} alt="hangman-icon" /> Hangman
-        </Typography>
-      </ThemeProvider>
+      <Typography
+        fontSize={"2.5rem"}
+        fontFamily={"Silkscreen"}
+        sx={{ color: "text.primary" }}
+      >
+        <img src={hangmanIcon} width={"40"} alt="hangman-icon" /> Hangman
+      </Typography>
       <IconButton
-        style={{ position: "absolute", top: "0.5rem", right: "1.5rem" }}
+        style={{ position: "absolute", top: "0.5rem", right: "0.3rem" }}
         onClick={handleClick}
       >
         <SettingsIcon />
