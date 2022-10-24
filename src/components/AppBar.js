@@ -6,7 +6,9 @@ import "../App.css";
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
+import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
 import Menu from "@mui/material/Menu";
+import Share from "./Share";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -51,20 +53,36 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function AppBar() {
+export default function AppBar({setWins, setAttempts}) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openShare, setOpenShare] = useState(0);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const clearData = () => {
-    localStorage.clear();
+    localStorage.setItem("wins", "0");
+    localStorage.setItem("attempts", "1");
+    setWins(localStorage.getItem("wins"));
+    setAttempts(localStorage.getItem("attempts"));
   };
+
+  const handleShareClickOpen = () => {
+    setOpenShare(1);
+  }
+
+  const handleShareOnClose = (val) => {
+    setOpenShare(val);
+  }
+
   return (
-    <div className="appbar">
+    <div className="appbar" style={{marginBottom:5}}>
       <Typography
         fontSize={"2.5rem"}
         fontFamily={"Silkscreen"}
@@ -91,14 +109,18 @@ export default function AppBar() {
           onClick={() => {
             clearData();
             handleClose();
-            window.location.reload();
           }}
           disableRipple
         >
           <RestartAltRoundedIcon />
-          Reset data
+          Reset
+        </MenuItem>
+        <MenuItem onClick={handleShareClickOpen}>
+          <ShareRoundedIcon/>
+          Social sharing
         </MenuItem>
       </StyledMenu>
+      <Share open={openShare} onClose={handleShareOnClose} />
     </div>
   );
 }

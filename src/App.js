@@ -30,12 +30,12 @@ function App() {
   const [value, setValue] = useState(encrypt);
   const [gameOver, setGameOver] = useState(0);
   const [lives, setLives] = useState([1, 2, 3, 4, 5, 6, 7]);
-  const [usedAplhabet, setUsedAplhabet] = useState(
-    getInitUsedAlphabet(initChar)
-  );
+  const [usedAplhabet, setUsedAplhabet] = useState(getInitUsedAlphabet(initChar));
   const [keyboard, setKeyboard] = useState(true);
   const [newGameButton, setNewGameButton] = useState(false);
-  
+  const [wins, setWins] = useState(localStorage.getItem("wins"));
+  const [attempts, setAttempts] = useState(localStorage.getItem("attempts"));
+
   function getInitUsedAlphabet(char) {
     const res = [];
     res[alphabet.indexOf(char)] = 1;
@@ -49,6 +49,7 @@ function App() {
       setNewGameButton(true);
 
       localStorage.setItem("wins", +localStorage.getItem("wins") + 1);
+      setWins(+wins+1);
     }
   }
 
@@ -94,6 +95,7 @@ function App() {
     setKeyboard(true);
     setNewGameButton(false);
     localStorage.setItem("attempts", +localStorage.getItem("attempts") + 1);
+    setAttempts(+attempts+1);
   }
 
   useEffect(() => {
@@ -103,11 +105,9 @@ function App() {
   return (
     <div className="App">
       {gameOver ? <Success /> : null}
-
-      <AppBar />
+      <AppBar setWins={setWins} setAttempts={setAttempts} />
       <Divider />
-      <HighScore />
-
+      <HighScore wins={wins} attempts={attempts} />
       <div className="container">
         <Stack
           direction={{ xs: "column", sm: "column", md: "row" }}
@@ -130,7 +130,6 @@ function App() {
             {!keyboard && !gameOver ? (
               <GameOver word={word} newGame={newGame} />
             ) : null}
-
             {newGameButton ? <GameWin newGame={newGame} /> : null}
           </div>
         </Stack>
