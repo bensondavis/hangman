@@ -1,4 +1,3 @@
-import "../App.css";
 import { Typography } from "@mui/material";
 import "@fontsource/concert-one";
 

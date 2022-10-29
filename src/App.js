@@ -6,7 +6,7 @@ import Success from "./components/Confetti";
 import HighScore from "./components/Score";
 import Word from "./components/Word";
 import Keyboard from "./components/Keyboard";
-import AppBar from "./components/AppBar";
+import AppBar from "./components/AppbarComponents/AppBar";
 import Hangman from "./components/Hangman";
 import GameOver from "./components/GameOver";
 import GameWin from "./components/GameWIn";

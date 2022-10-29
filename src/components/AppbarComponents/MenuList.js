@@ -1,14 +1,11 @@
-import hangmanIcon from "../images/hangman.png";
-import "@fontsource/silkscreen";
-import { Typography, IconButton, MenuItem } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import "../App.css";
-import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
-import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import Menu from "@mui/material/Menu";
+import { useState } from "react";
 import Share from "./Share";
+import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
+import { MenuItem } from "@mui/material";
+import Reset from "./Reset";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -53,49 +50,26 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function AppBar({setWins, setAttempts}) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [openShare, setOpenShare] = useState(0);
+export default function MenuList({
+  anchorEl,
+  handleClose,
+  setWins,
+  setAttempts,
+}) {
+  const [openShare, setOpenShare] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
   const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const clearData = () => {
-    localStorage.setItem("wins", "0");
-    localStorage.setItem("attempts", "1");
-    setWins(localStorage.getItem("wins"));
-    setAttempts(localStorage.getItem("attempts"));
-  };
-
-  const handleShareClickOpen = () => {
-    setOpenShare(1);
-  }
 
   const handleShareOnClose = (val) => {
     setOpenShare(val);
-  }
+  };
+
+  const handleResetOnClose = (val) => {
+    setOpenReset(val);
+  };
 
   return (
-    <div className="appbar" style={{marginBottom:5}}>
-      <Typography
-        fontSize={"2.5rem"}
-        fontFamily={"Silkscreen"}
-        sx={{ color: "text.primary" }}
-      >
-        <img src={hangmanIcon} width={"40"} alt="hangman-icon" /> Hangman
-      </Typography>
-      <IconButton
-        style={{ position: "absolute", top: "0.5rem", right: "0.3rem" }}
-        onClick={handleClick}
-      >
-        <SettingsIcon />
-      </IconButton>
+    <>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
@@ -107,7 +81,7 @@ export default function AppBar({setWins, setAttempts}) {
       >
         <MenuItem
           onClick={() => {
-            clearData();
+            setOpenReset(true);
             handleClose();
           }}
           disableRipple
@@ -115,12 +89,23 @@ export default function AppBar({setWins, setAttempts}) {
           <RestartAltRoundedIcon />
           Reset
         </MenuItem>
-        <MenuItem onClick={handleShareClickOpen}>
-          <ShareRoundedIcon/>
+        <MenuItem
+          onClick={() => {
+            setOpenShare(true);
+            handleClose();
+          }}
+        >
+          <ShareRoundedIcon />
           Social sharing
         </MenuItem>
       </StyledMenu>
+      <Reset
+        open={openReset}
+        onClose={handleResetOnClose}
+        setWins={setWins}
+        setAttempts={setAttempts}
+      />
       <Share open={openShare} onClose={handleShareOnClose} />
-    </div>
+    </>
   );
 }

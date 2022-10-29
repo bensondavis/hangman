@@ -1,4 +1,4 @@
-import { DialogContent, DialogTitle } from "@mui/material";
+import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import {
   Twitter,
@@ -15,10 +15,12 @@ export default function Share({ open, onClose }) {
     (+localStorage.getItem("wins") / +localStorage.getItem("attempts")) *
     100
   ).toFixed(2);
+
   const msg = `Can you beat my high score of ${score}%?\nTry Hangman`;
   const url = "https://bensondavis.github.io/hangman";
+
   function handleClose() {
-    onClose(0);
+    onClose(false);
   }
 
   return (
@@ -33,6 +35,9 @@ export default function Share({ open, onClose }) {
         <Mail solid small subject={msg} link={url} />
         <Pinterest solid small message={msg} link={url} />
       </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} >Cancel</Button>
+      </DialogActions>
     </Dialog>
   );
 }
