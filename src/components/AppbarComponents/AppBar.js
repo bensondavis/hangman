@@ -2,11 +2,11 @@ import hangmanIcon from "../../images/hangman.png";
 import "@fontsource/silkscreen";
 import { Typography, IconButton } from "@mui/material";
 import { useState } from "react";
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded';
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
 import MenuList from "./MenuList";
 
-export default function AppBar({setWins, setAttempts}) {
+export default function AppBar({ setWins, setAttempts }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -19,7 +19,7 @@ export default function AppBar({setWins, setAttempts}) {
   };
 
   return (
-    <div className="appbar" style={{marginBottom:5}}>
+    <div className="appbar" style={{ marginBottom: 5 }}>
       <Typography
         fontSize={"2.5rem"}
         fontFamily={"Silkscreen"}
@@ -34,7 +34,12 @@ export default function AppBar({setWins, setAttempts}) {
         {!open ? <MenuRoundedIcon /> : <MenuOpenRoundedIcon />}
       </IconButton>
 
-      <MenuList anchorEl={anchorEl} handleClose={handleClose} setWins={setWins} setAttempts={setAttempts} />
+      <MenuList
+        anchorEl={anchorEl}
+        handleClose={handleClose}
+        setWins={setWins}
+        setAttempts={setAttempts}
+      />
     </div>
   );
 }

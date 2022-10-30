@@ -49,7 +49,7 @@ function App() {
       setNewGameButton(true);
 
       localStorage.setItem("wins", +localStorage.getItem("wins") + 1);
-      setWins(+wins+1);
+      setWins(+wins + 1);
     }
   }
 
@@ -95,7 +95,7 @@ function App() {
     setKeyboard(true);
     setNewGameButton(false);
     localStorage.setItem("attempts", +localStorage.getItem("attempts") + 1);
-    setAttempts(+attempts+1);
+    setAttempts(+attempts + 1);
   }
 
   useEffect(() => {
@@ -117,7 +117,7 @@ function App() {
         >
           <Hangman lives={lives} />
           <div>
-            <Word value={value} />
+            <Word value={value} word={word} />
 
             {keyboard ? (
               <Keyboard
@@ -130,6 +130,7 @@ function App() {
             {!keyboard && !gameOver ? (
               <GameOver word={word} newGame={newGame} />
             ) : null}
+
             {newGameButton ? <GameWin newGame={newGame} /> : null}
           </div>
         </Stack>
