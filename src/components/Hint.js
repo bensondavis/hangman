@@ -4,6 +4,8 @@ import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/system";
 import { Box, Collapse, Typography } from "@mui/material";
 
+
+
 export default function Hint({ word, open }) {
   const [hints, setHints] = useState([]);
   const url = `https://api.datamuse.com/words?ml=${word}`;

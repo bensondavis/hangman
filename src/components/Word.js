@@ -4,21 +4,33 @@ import TipsAndUpdatesRoundedIcon from "@mui/icons-material/TipsAndUpdatesRounded
 import "@fontsource/signika-negative";
 import Hint from "./Hint";
 import { useEffect, useState } from "react";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from '@mui/material/Zoom';
+
+const delay = 3;
 
 export default function Word({ value, word }) {
   const [open, setOpen] = useState(false);
   const [buttonColor, setButtonColor] = useState("primary");
 
   const handleClick = () => {
-    setOpen(!open);
+    setOpen(true);
+    setButtonColor("default");
   };
 
+  // useEffect(() => {
+  //   if (open) {
+  //     setButtonColor("default");
+  //   } else {
+  //     setButtonColor("primary");
+  //   }
+  // }, [open]);
+
   useEffect(() => {
-    if (open) {
-      setButtonColor("default");
-    } else {
-      setButtonColor("primary");
-    }
+    let timer = setTimeout(() => setOpen(false), delay * 1000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [open]);
 
   return (
@@ -30,11 +42,13 @@ export default function Word({ value, word }) {
           fontSize={"4rem"}
           fontFamily={"Signika Negative"}
         >
-          <Box sx={{ letterSpacing: 10 }}>{value}</Box>
+          <Box sx={{ letterSpacing: 10, pointerEvents: "none" }}>{value}</Box>
         </Typography>
-        <IconButton color={buttonColor} onClick={handleClick}>
-          <TipsAndUpdatesRoundedIcon />
-        </IconButton>
+        <Tooltip TransitionComponent={Zoom} title="Hint">
+          <IconButton color={buttonColor} onClick={handleClick} sx={{mb:4}}>
+            <TipsAndUpdatesRoundedIcon />
+          </IconButton>
+        </Tooltip>
       </Stack>
       <Hint open={open} word={word} />
     </>
