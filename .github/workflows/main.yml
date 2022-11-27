@@ -6,6 +6,9 @@ on:
   push:
     branches: [ master ]
 
+runs:
+  using: 'node16'
+
 # Specify the tasks to run when this script gets triggered
 jobs:
   build:
