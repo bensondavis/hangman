@@ -31,7 +31,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "prod": "echo \"Building...\"",
+    "postinstall": "node ./node_modules/husky/lib/installer/bin install",
+    "deploy": "git push origin `git subtree split --prefix build master`:gh-pages --force"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prod"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +59,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.2"
   }
 }

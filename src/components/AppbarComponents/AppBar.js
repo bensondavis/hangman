@@ -23,7 +23,7 @@ export default function AppBar({ setWins, setAttempts }) {
       <Typography
         fontSize={"2.5rem"}
         fontFamily={"Silkscreen"}
-        sx={{ color: "text.primary" }}
+        sx={{ color: "text.primary", userSelect: "none" }}
       >
         <img src={hangmanIcon} width={"40"} alt="hangman-icon" /> Hangman
       </Typography>
