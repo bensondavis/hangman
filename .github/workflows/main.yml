@@ -1,23 +1,25 @@
-# This script deploys your website automatically
-name: CI
-
-# Only trigger this script when you push to the master branch
+name: MasterDeployCI
 on:
   push:
-    branches: [ master ]
-
-runs:
-  using: 'node16'
-
-# Specify the tasks to run when this script gets triggered
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # Download our master branch
+    strategy:
+      matrix:
+        node-version: [16.x]
     steps:
-    - uses: actions/checkout@v2
-
-    # Run our deployment command
-    - name: Deploying the static website to gh-pages
-      run: npm run deploy
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Packages
+      run: npm install
+    - name: Deploy to GH Pages
+      run: |
+        git config --global user.email "bensondavis61@gmail.com"
+        git config --global user.name "bensondavis"
+        git remote set-url origin https://${{secrets.GH_PAGE_DEPLOY}}@github.com/bensondavis/hangman.git
+        npm run deploy
