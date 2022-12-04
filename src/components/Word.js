@@ -18,16 +18,9 @@ export default function Word({ value, word }) {
     setButtonColor("default");
   };
 
-  // useEffect(() => {
-  //   if (open) {
-  //     setButtonColor("default");
-  //   } else {
-  //     setButtonColor("primary");
-  //   }
-  // }, [open]);
-
   useEffect(() => {
-    let timer = setTimeout(() => setOpen(false), delay * 1000);
+    let timer = setTimeout(() => {setOpen(false); setButtonColor("primary");}, delay * 1000);
+
     return () => {
       clearTimeout(timer);
     };
